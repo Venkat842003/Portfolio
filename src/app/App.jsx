@@ -4,14 +4,14 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import AppLayout from "../Pages/AppLayout";
-import Home from "../Pages/Home";
-import About from "../Pages/About";
-import Contact from "../Pages/Contact";
-import Projects from "../Pages/Projects";
+import AppLayout from "../pages/AppLayout";
+import Home from "../pages/Home";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import Projects from "../pages/Projects";
 import Error from "../ui/Error";
-import Signin from "../Pages/Signin";
-import Dashboard from "../Pages/Dashboard";
+import Signin from "../pages/Signin";
+import Dashboard from "../pages/Dashboard";
 import HomeEditor from "../features/home/HomeEditor";
 import ProtectedRoute from "../routes/ProtectedRoute";
 import { DataProvider } from "../context/data/DataProvider";
@@ -21,7 +21,7 @@ import Experience from "../features/experience/Experience";
 import ExpEditor from "../features/experience/ExpEditor";
 import Overview from "../components/Overview";
 import AboutEditor from "../features/about/AboutEditor";
-import UnderConstruction from "../Pages/UnderConstruction";
+import UnderConstruction from "../pages/UnderConstruction";
 import ProjectDetails from "../features/projects/ProjectDetails";
 import ProjectEditor from "../features/projects/ProjectEditor";
 import ProjectEditForm from "../features/projects/ProjectEditForm";
