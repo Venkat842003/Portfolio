@@ -1,0 +1,28 @@
+function Button({
+  children,
+  disabled,
+  onClick,
+  variant = "primary",
+  type,
+  title,
+}) {
+  const variants = {
+    sky: "bg-sky-600 hover:bg-sky-700",
+    primary: "bg-neutral-900 hover:bg-neutral-800",
+    red: "bg-red-600 hover:bg-red-700",
+    form: "bg-emerald-600 hover:bg-emerald-700",
+  };
+  return (
+    <button
+      type={type}
+      className={`flex gap-2 text-sm text-neutral-50  rounded-3xl self-center px-4 py-2 ${variants[variant]} ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+      disabled={disabled}
+      onClick={onClick}
+      title={title}
+    >
+      {children}
+    </button>
+  );
+}
+
+export default Button;
