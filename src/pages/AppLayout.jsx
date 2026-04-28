@@ -5,9 +5,9 @@ import Loading from "../ui/Loading";
 
 function AppLayout() {
   return (
-    <div className="bg-neutral-900 text-neutral-50">
+    <div className="bg-neutral-900 text-neutral-50 ">
       <Header />
-      <main className="mx-auto max-w-5/6 min-h-screen  px-8  pt-20">
+      <main className="min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-20 max-w-7xl">
         <Outlet />
       </main>
       <Footer />
