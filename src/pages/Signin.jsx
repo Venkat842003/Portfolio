@@ -7,7 +7,6 @@ import { supabase } from "../lib/supabase";
 import { Navigate, useNavigate } from "react-router-dom";
 import Loading from "../ui/Loading";
 import { useAuth } from "../context/auth/useAuth";
-import { useData } from "../context/data/useData";
 
 function Signin() {
   const { session } = useAuth();
