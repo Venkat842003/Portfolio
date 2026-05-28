@@ -18,7 +18,7 @@ function ProjectEditForm({ initialData = null, onSubmit }) {
 
   const [imagesToDelete, setImagesToDelete] = useState([]);
 
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState([]);
   useEffect(() => {
     if (initialData) {
       setForm({
@@ -34,8 +34,7 @@ function ProjectEditForm({ initialData = null, onSubmit }) {
 
   function getPathUrl(url) {
     const path = url.split("/storage/v1/object/public/images/")[1];
-
-    return path[1] || null;
+    return path ? decodeURIComponent(path) : null;
   }
 
   async function handleDeleteImage(index) {
@@ -47,20 +46,25 @@ function ProjectEditForm({ initialData = null, onSubmit }) {
   async function uploadImage() {
     if (!imageFile) return null;
 
-    const fileName = `projects/${Date.now()}-${imageFile.name}`;
+    const uploadedUrls = [];
 
-    const { error } = await supabase.storage
-      .from("images")
-      .upload(fileName, imageFile);
+    for (const file of imageFile) {
+      const fileName = `projects/${Date.now()}-${file.name}`;
 
-    if (error) {
-      console.error(error);
-      return null;
+      const { error } = await supabase.storage
+        .from("images")
+        .upload(fileName, file);
+
+      if (error) {
+        console.error(error);
+        return null;
+      }
+
+      const { data } = supabase.storage.from("images").getPublicUrl(fileName);
+
+      uploadedUrls.push(data.publicUrl);
     }
-
-    const { data } = supabase.storage.from("images").getPublicUrl(fileName);
-
-    return data.publicUrl;
+    return uploadedUrls;
   }
 
   function handleChange(e) {
@@ -94,9 +98,9 @@ function ProjectEditForm({ initialData = null, onSubmit }) {
     setUploading(true);
 
     let updatedImages = [...form.images];
-    if (imageFile) {
-      const imageUrl = await uploadImage();
-      if (imageUrl) updatedImages.push(imageUrl);
+    if (imageFile.length > 0) {
+      const newImageUrls = await uploadImage();
+      if (newImageUrls) updatedImages.push(...newImageUrls);
     }
 
     if (imagesToDelete.length > 0) {
@@ -108,9 +112,14 @@ function ProjectEditForm({ initialData = null, onSubmit }) {
     }
 
     onSubmit({ ...form, images: updatedImages });
-    setImageFile(null);
+    setImageFile([]);
     setImagesToDelete([]);
     setUploading(false);
+    alert("Project saved successfully!");
+  }
+
+  function handleDeletePreviewImage(index) {
+    setImageFile((prev) => prev.filter((_, i) => i !== index));
   }
 
   return (
@@ -214,15 +223,28 @@ function ProjectEditForm({ initialData = null, onSubmit }) {
       <input
         type="file"
         accept="image/*"
-        onChange={(e) => setImageFile(e.target.files[0])}
+        multiple
+        onChange={(e) => setImageFile(Array.from(e.target.files))}
         className="bg-sky-600 p-2"
       />
-      {imageFile && (
-        <img
-          src={URL.createObjectURL(imageFile)}
-          className="w-32 h-32 object-cover rounded-lg"
-        />
-      )}
+      <div className="flex flex-wrap gap-4 mt-4">
+        {imageFile?.map((file, index) => (
+          <div key={index} className="relative">
+            <img
+              src={URL.createObjectURL(file)}
+              alt="preview"
+              className="w-32 h-32 object-cover rounded-lg"
+            />
+            <button
+              type="button"
+              onClick={() => handleDeletePreviewImage(index)}
+              className="absolute top-1 right-1 bg-black/70 text-white text-xs px-2 py-1 rounded"
+            >
+              ❌
+            </button>
+          </div>
+        ))}
+      </div>
 
       <div className="flex flex-wrap gap-4 mt-4">
         {form.images?.filter(Boolean).map((img, index) => (

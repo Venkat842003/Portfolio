@@ -2,6 +2,9 @@ import { useState } from "react";
 import Button from "../ui/Button";
 import { useData } from "../context/data/useData";
 import Loading from "../ui/Loading";
+import emailjs from "@emailjs/browser";
+
+
 function Contact() {
   const { isLoading } = useData();
 
@@ -9,17 +12,36 @@ function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+
+    try {
+      await emailjs.send(
+        "service_8ka1cyw",
+        "template_fdx6k7a",
+        {
+          name,
+          email,
+          message,
+        },
+        "0QTJsaF4WZUYwvCol",
+      );
+
+      setName("");
+      setEmail("");
+      setMessage("");
+
+      alert("Message sent!");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (isLoading) return <Loading />;
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="text-center text-4xl font-bold mb-10">
-        Get in touch!
-      </h1>
+      <h1 className="text-center text-4xl font-bold mb-10">Get in touch!</h1>
 
       <form
         onSubmit={handleSubmit}
@@ -49,14 +71,11 @@ function Contact() {
           onChange={(e) => setMessage(e.target.value)}
         />
 
-        <Button
-          variant="primary"
-          disabled={!name.trim() || !email.trim()}
-        >
+        <Button variant="primary" disabled={!name.trim() || !email.trim()}>
           Submit
         </Button>
       </form>
     </div>
   );
-} 
+}
 export default Contact;

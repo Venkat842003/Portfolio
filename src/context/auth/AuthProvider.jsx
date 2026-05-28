@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import {supabase} from "../../lib/supabase"
+import { supabase } from "../../lib/supabase";
 import { AuthContext } from "./AuthContext";
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     async function fetchSession() {
       const { data } = await supabase.auth.getSession();
 
       setSession(data.session);
+      setAuthLoading(false);
     }
     fetchSession();
 
@@ -24,7 +26,7 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  const value = { session, user: session?.user?.email ?? null };
+  const value = { session, user: session?.user?.email ?? null, authLoading };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

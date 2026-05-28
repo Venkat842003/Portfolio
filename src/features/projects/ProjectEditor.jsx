@@ -50,7 +50,7 @@ function ProjectEditor() {
       </div>
 
       <Button onClick={() => navigate("/dashboard/content/projects/new")}>
-        Add Project
+        Add Project +
       </Button>
     </div>
   );

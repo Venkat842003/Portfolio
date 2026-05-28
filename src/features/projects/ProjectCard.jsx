@@ -11,11 +11,11 @@ function ProjectCard({ onClick, project, onEdit, showEdit, onDelete }) {
       <p>{project.tagline}</p>
       {showEdit && (
         <div>
-          <div className="flex gap-2">
-            <Button variant="sky" onClick={onEdit}>
+          <div className="flex gap-2 mt-5">
+            <Button  onClick={onEdit}>
               Edit
             </Button>
-            <Button variant="red" onClick={onDelete}>
+            <Button  onClick={onDelete}>
               delete
             </Button>
           </div>

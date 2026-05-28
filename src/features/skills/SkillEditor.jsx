@@ -95,7 +95,7 @@ function SkillEditor() {
           </button>
         </div>
       ))}
-      <div>
+      <div className="flex gap-3 mt-3">
         <Button variant="sky" type="button" onClick={handleAddSkill}>
           Add Skill
         </Button>

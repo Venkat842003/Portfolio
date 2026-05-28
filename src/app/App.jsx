@@ -57,7 +57,6 @@ const router = createBrowserRouter([
                 path: "content",
                 element: <Outlet />, // or ContentLayout
                 children: [
-                  { index: true, element: <HomeEditor /> },
                   { path: "home", element: <HomeEditor /> },
                   { path: "about", element: <AboutEditor /> },
                   { path: "skills", element: <Skills /> },

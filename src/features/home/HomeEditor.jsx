@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../ui/Button";
 import { supabase } from "../../lib/supabase";
 import { useData } from "../../context/data/useData";
@@ -17,6 +17,14 @@ function HomeEditor() {
   };
 
   const [formData, setFormData] = useState(initialState);
+
+  useEffect(() => {
+    setFormData({
+      name: hero?.name ?? "",
+      title: hero?.title ?? "",
+      description: hero?.description ?? "",
+    });
+  }, [hero]);
 
   function handleAutofill() {
     setFormData({

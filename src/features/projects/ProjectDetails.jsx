@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useData } from "../../context/data/useData";
 import { useEffect, useState } from "react";
+import Loading from "../../ui/Loading";
 
 function ProjectDetails() {
   const { id } = useParams();
-  const { sectionData } = useData();
+  const { sectionData, isLoading } = useData();
   const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -25,20 +26,21 @@ function ProjectDetails() {
     }, 6000); // 6 sec
 
     return () => clearInterval(interval);
-  }, [project.images.length]);
+  }, [project?.images.length]);
 
   function handlePrev() {
     setCurrentIndex((prev) =>
       prev === project.images.length - 1 ? 0 : prev - 1,
     );
   }
+  if (isLoading) return <Loading />;
 
   if (!project) {
     return <p className="text-center mt-10">Project not found</p>;
   }
 
   return (
-    <div className="max-w-5/6 mx-auto px-4 py-5">
+    <div className=" mx-auto px-4 ">
       <button
         onClick={() => navigate(-1)}
         className="mb-8 text-md text-neutral-400 hover:text-white transition"
@@ -47,13 +49,13 @@ function ProjectDetails() {
       </button>
       <div className="flex flex-col gap-8 bg-neutral-900 border border-neutral-700 rounded-2xl p-6 shadow-lg">
         {/* Title */}
-        <h1 className="text-3xl font-bold mb-2">{project.name}</h1>
+        <h1 className="text-3xl font-bold">{project.name}</h1>
 
         {/* Tagline */}
-        <p className="text-neutral-400 mb-6">{project.tagline}</p>
+        <p className="text-neutral-400">{project.tagline}</p>
 
         {/* Links */}
-        <div className="flex gap-4 mb-6">
+        <div className="flex gap-4 ">
           {project.live_url && (
             <a
               href={project.live_url}
@@ -80,7 +82,7 @@ function ProjectDetails() {
         {/* images */}
 
         <div className="relative w-full max-w-7xl my-10">
-          <img 
+          <img
             src={project.images[currentIndex]}
             className="w-full h-full object-cover rounded-xl"
           />

@@ -7,7 +7,7 @@ function AppLayout() {
   return (
     <div className="bg-neutral-900 text-neutral-50 ">
       <Header />
-      <main className="min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-20 max-w-7xl">
+      <main className="min-h-screen mx-auto   sm:px-6 lg: py-10 sm:py-14 lg:py-20 max-w-9/10 w-full">
         <Outlet />
       </main>
       <Footer />
